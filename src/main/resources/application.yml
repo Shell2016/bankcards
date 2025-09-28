@@ -7,6 +7,11 @@
 #  - Настроить параметры безопасности и JWT.
 #  - Включить Swagger UI.
 
+
+
+server:
+  port: 8080
+
 spring:
   application:
     name: bankcards
@@ -27,3 +32,18 @@ spring:
     open-in-view: false
   liquibase:
     change-log: classpath:/db/migration/db.changelog-master.yaml
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    info:
+      title: Bank Cards API
+      description: API for managing bank cards and users
+      version: 1.0.0
+      contact:
+        name: Bank Cards Team
+        email: support@bankcards.com
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter:
+  show-actuator: true
