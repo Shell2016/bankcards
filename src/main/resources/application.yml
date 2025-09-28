@@ -10,3 +10,20 @@
 spring:
   application:
     name: bankcards
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bankcards
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:/db/migration/db.changelog-master.yaml

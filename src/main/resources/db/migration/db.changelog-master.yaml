@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/migration/changeset/001-create-table-users.yaml
+  - include:
+      file: db/migration/changeset/002-create-table-card.yaml
+  - include:
+      file: db/migration/changeset/003-create-admin.yaml
