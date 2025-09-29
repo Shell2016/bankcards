@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -22,6 +23,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder encoder;
 
+    @Transactional
     public UserDto create(UserCreateDto dto) {
         User user = userMapper.toEntity(dto);
         user.setPassword(encoder.encode(dto.password()));
@@ -51,6 +53,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    @Transactional
     public UserDto updateRole(Long id, com.example.bankcards.entity.Role role) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(

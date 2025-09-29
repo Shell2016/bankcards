@@ -15,6 +15,15 @@ public interface CardMapper {
 
     Card toEntity(CardDto cardDto);
 
-    @InheritInverseConfiguration(name = "toEntity")
+    @Mapping(source = "cardNumber", target = "maskedCardNumber", qualifiedByName = "maskPan")
     CardDto toCardDto(Card card);
+
+    @Named("maskPan")
+    default String maskPan(String pan) {
+        if (pan == null) return null;
+        String digits = pan.replaceAll("\\D", "");
+        if (digits.length() <= 4) return pan;
+        String last4 = digits.substring(digits.length() - 4);
+        return "**** **** **** " + last4;
+    }
 }
