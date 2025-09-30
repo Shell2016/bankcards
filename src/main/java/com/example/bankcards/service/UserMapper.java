@@ -21,5 +21,5 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "cards", ignore = true)
-    void updateWithNull(UserDto userDto, @MappingTarget User user);
+    void updateUser(UserDto userDto, @MappingTarget User user);
 }

@@ -2,6 +2,7 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.dto.UserCreateDto;
 import com.example.bankcards.dto.UserDto;
+import com.example.bankcards.entity.Role;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto updateRole(Long id, com.example.bankcards.entity.Role role) {
+    public UserDto updateRole(Long id, Role role) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, 

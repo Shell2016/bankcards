@@ -2,10 +2,13 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.dto.CardCreateDto;
 import com.example.bankcards.dto.CardDto;
+import com.example.bankcards.dto.CardUpdateDto;
 import com.example.bankcards.entity.Card;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CardMapper {
     @Mapping(source = "userId", target = "user.id")
     Card toEntity(CardCreateDto cardCreateDto);
@@ -26,4 +29,6 @@ public interface CardMapper {
         String last4 = digits.substring(digits.length() - 4);
         return "**** **** **** " + last4;
     }
+
+    void updateCard(CardUpdateDto cardDto, @MappingTarget Card card);
 }

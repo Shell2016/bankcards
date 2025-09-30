@@ -11,7 +11,9 @@ public class CardNumberGenerator {
 
     public String generatePan() {
         StringBuilder sb = new StringBuilder(PAN_LENGTH);
-        for (int i = 0; i < PAN_LENGTH - 1; i++) sb.append(random.nextInt(10));
+        for (int i = 0; i < PAN_LENGTH - 1; i++) {
+            sb.append(random.nextInt(10));
+        }
         int checkDigit = computeLuhnCheckDigit(sb.toString());
         sb.append(checkDigit);
         return sb.toString();

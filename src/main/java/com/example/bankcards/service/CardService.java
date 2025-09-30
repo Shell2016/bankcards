@@ -2,12 +2,16 @@ package com.example.bankcards.service;
 
 import com.example.bankcards.dto.CardCreateDto;
 import com.example.bankcards.dto.CardDto;
+import com.example.bankcards.dto.CardUpdateDto;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.CardStatus;
 import com.example.bankcards.entity.User;
 import com.example.bankcards.repository.CardRepository;
 import com.example.bankcards.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,5 +39,37 @@ public class CardService {
         card.setCardNumber(cardNumberGenerator.generatePan());
         Card savedCard = cardRepository.save(card);
         return cardMapper.toCardDto(savedCard);
+    }
+
+    public Page<CardDto> getAll(CardFilter filter, Pageable pageable) {
+        Specification<Card> spec = filter.toSpecification();
+        Page<Card> cards = cardRepository.findAll(spec, pageable);
+        return cards.map(cardMapper::toCardDto);
+    }
+
+    public CardDto getOne(Long id) {
+        return cardRepository.findById(id)
+                .map(cardMapper::toCardDto)
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Card with id `%s` not found".formatted(id)));
+    }
+
+    @Transactional
+    public CardDto update(Long id, CardUpdateDto dto) {
+        Card card = cardRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
+        cardMapper.updateCard(dto, card);
+        Card resultCard = cardRepository.save(card);
+        return cardMapper.toCardDto(resultCard);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Card card = cardRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Card with id `%s` not found".formatted(id)
+                ));
+        cardRepository.delete(card);
     }
 }
