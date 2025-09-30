@@ -1,8 +1,6 @@
 package com.example.bankcards.controller;
 
-import com.example.bankcards.dto.CardCreateDto;
-import com.example.bankcards.dto.CardDto;
-import com.example.bankcards.dto.CardUpdateDto;
+import com.example.bankcards.dto.*;
 import com.example.bankcards.service.CardFilter;
 import com.example.bankcards.service.CardService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,15 +55,28 @@ public class CardController {
         return cardService.getOne(id);
     }
 
-    @PutMapping("/{id}")
-    @Operation(summary = "Update card balance and/or status", description = "Update card status and balance")
+    @PutMapping("/{id}/balance")
+    @Operation(summary = "Update card balance", description = "Update card balance")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Card updated successfully"),
+            @ApiResponse(responseCode = "200", description = "Card balance updated successfully"),
             @ApiResponse(responseCode = "404", description = "Card not found")
     })
-    public CardDto update(@PathVariable Long id, @RequestBody CardUpdateDto dto) {
+    public CardDto update(@PathVariable Long id, @RequestBody CardBalanceUpdateDto dto) {
         return cardService.update(id, dto);
     }
+
+    @PutMapping("/{id}/status")
+    @Operation(summary = "Update card status", description = "Update card status")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Card status updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Card not found")
+    })
+    public CardDto update(@PathVariable Long id, @RequestBody CardStatusUpdateDto dto) {
+        return cardService.update(id, dto);
+    }
+
+
+
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -1,8 +1,6 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.dto.CardCreateDto;
-import com.example.bankcards.dto.CardDto;
-import com.example.bankcards.dto.CardUpdateDto;
+import com.example.bankcards.dto.*;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.CardStatus;
 import com.example.bankcards.entity.User;
@@ -55,10 +53,19 @@ public class CardService {
     }
 
     @Transactional
-    public CardDto update(Long id, CardUpdateDto dto) {
+    public CardDto update(Long id, CardBalanceUpdateDto dto) {
         Card card = cardRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
-        cardMapper.updateCard(dto, card);
+        cardMapper.updateCardBalance(dto, card);
+        Card resultCard = cardRepository.save(card);
+        return cardMapper.toCardDto(resultCard);
+    }
+
+    @Transactional
+    public CardDto update(Long id, CardStatusUpdateDto dto) {
+        Card card = cardRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
+        cardMapper.updateCardStatus(dto, card);
         Card resultCard = cardRepository.save(card);
         return cardMapper.toCardDto(resultCard);
     }

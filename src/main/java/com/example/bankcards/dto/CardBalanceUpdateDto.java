@@ -1,15 +1,15 @@
 package com.example.bankcards.dto;
 
 import com.example.bankcards.entity.Card;
-import com.example.bankcards.entity.CardStatus;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
 /**
- * DTO for card update {@link Card}
+ * DTO for card balance update {@link Card}
  */
-public record CardUpdateDto(
-        CardStatus status,
+public record CardBalanceUpdateDto(
+        @NotNull
         BigDecimal balance
 ) {
 }

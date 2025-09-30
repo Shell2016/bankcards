@@ -1,8 +1,6 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.dto.CardCreateDto;
-import com.example.bankcards.dto.CardDto;
-import com.example.bankcards.dto.CardUpdateDto;
+import com.example.bankcards.dto.*;
 import com.example.bankcards.entity.Card;
 import org.mapstruct.*;
 
@@ -31,4 +29,8 @@ public interface CardMapper {
     }
 
     void updateCard(CardUpdateDto cardDto, @MappingTarget Card card);
+
+    void updateCardBalance(CardBalanceUpdateDto dto, @MappingTarget Card card);
+
+    void updateCardStatus(CardStatusUpdateDto dto, @MappingTarget Card card);
 }
