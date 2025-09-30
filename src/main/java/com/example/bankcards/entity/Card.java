@@ -42,6 +42,9 @@ public class Card {
     @Column(name = "balance", nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
 
+    @Column(name = "delete_requested", nullable = false)
+    private boolean deleteRequested = false;
+
     public void setBalance(BigDecimal balance) {
         if (balance.compareTo(BigDecimal.ZERO) < 0) {
             throw new BalanceValidationException("Баланс не может быть меньше нуля!");

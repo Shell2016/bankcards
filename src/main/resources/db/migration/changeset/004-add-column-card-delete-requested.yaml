@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: developer
+      changes:
+        - addColumn:
+            tableName: card
+            columns:
+              - column:
+                  name: delete_requested
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

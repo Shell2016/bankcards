@@ -310,6 +310,21 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/CardDto"
+  /api/v1/cards/{id}/delete-request:
+    patch:
+      tags:
+      - "Cards"
+      operationId: "requestCardDelete"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "OK"
   /api/v1/cards/{id}:
     get:
       tags:
@@ -409,6 +424,8 @@ components:
       properties:
         balance:
           type: "number"
+      required:
+      - "balance"
     UserCreateDto:
       type: "object"
       properties:

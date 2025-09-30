@@ -75,9 +75,6 @@ public class CardController {
         return cardService.update(id, dto);
     }
 
-
-
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete card", description = "Delete a card by ID")
@@ -87,6 +84,26 @@ public class CardController {
     })
     public void delete(@PathVariable Long id) {
         cardService.delete(id);
+    }
+
+    @PatchMapping("/{id}/delete-request")
+    @Operation(summary = "Request delete card", description = "Request delete card by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Card flagged to deletion successfully"),
+            @ApiResponse(responseCode = "404", description = "Card not found")
+    })
+    public void requestCardDelete(@PathVariable Long id) {
+        cardService.requestDelete(id);
+    }
+
+    @GetMapping("/balance")
+    @Operation(summary = "Get total user balance", description = "Get total user balance")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Balance calculated successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    public BalanceDto getTotalUserBalance() {
+        return cardService.getTotalUserBalance();
     }
 }
 

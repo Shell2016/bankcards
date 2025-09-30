@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/migration/changeset/002-create-table-card.yaml
   - include:
       file: db/migration/changeset/003-create-admin.yaml
+  - include:
+      file: db/migration/changeset/004-add-column-card-delete-requested.yaml

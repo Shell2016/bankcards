@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
@@ -25,6 +26,8 @@ public class CardService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final CardNumberGenerator cardNumberGenerator;
+
+    private final UserService userService;
 
     @Transactional
     public CardDto create(CardCreateDto dto) {
@@ -79,4 +82,28 @@ public class CardService {
                 ));
         cardRepository.delete(card);
     }
+
+    @Transactional
+    public void requestDelete(Long id) {
+        //TODO  проверить id пользователя на ownership этой карты через security
+
+        Card card = cardRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Card not found"));
+        card.setDeleteRequested(true);
+        cardRepository.save(card);
+    }
+
+    public BalanceDto getTotalUserBalance() {
+        //TODO  получить id пользователя из jwt
+        Long userId = null;
+
+        BigDecimal total = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"))
+                .getCards().stream()
+                .map(Card::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new BalanceDto(total);
+    }
+
 }

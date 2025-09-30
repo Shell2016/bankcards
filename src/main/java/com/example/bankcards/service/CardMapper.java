@@ -28,8 +28,6 @@ public interface CardMapper {
         return "**** **** **** " + last4;
     }
 
-    void updateCard(CardUpdateDto cardDto, @MappingTarget Card card);
-
     void updateCardBalance(CardBalanceUpdateDto dto, @MappingTarget Card card);
 
     void updateCardStatus(CardStatusUpdateDto dto, @MappingTarget Card card);
